@@ -3980,22 +3980,23 @@ body {
 }
 
 /* =================================================================
-   ✨ AMÉLIORATIONS ÉVÉNEMENTIELLES (À COLLER TOUT À LA FIN)
+   ✨ AMÉLIORATIONS ÉVÉNEMENTIELLES (RÉGLAGE FIN)
    ================================================================= */
 
 body {
   font-family: 'Outfit', system-ui, -apple-system, sans-serif !important;
-  background: radial-gradient(circle at top right, #1a0b2e, var(--bg) 40%) !important;
+  /* DÉGRADÉ : Un violet légèrement plus riche qui se diffuse mieux */
+  background: radial-gradient(circle at top right, #240e45, var(--bg) 60%) !important;
   background-attachment: fixed !important;
 }
 
-/* EFFET GLASSMORPHISM (VERRE DÉPOLI) SUR LES CARTES */
+/* EFFET GLASSMORPHISM : Un peu plus transparent (0.40) pour laisser passer la lumière */
 .card, .game-content, .epreuve-card, .briefing-card-index, .coffre-banner, .mission-briefing-box {
-  background: rgba(17, 17, 20, 0.55) !important;
+  background: rgba(17, 17, 20, 0.40) !important; 
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45) !important;
 }
 
 /* BOUTONS : EFFET NÉON ET MICRO-INTERACTION AU CLIC */
@@ -4008,11 +4009,11 @@ body {
 
 .btn-primary:hover:not(:disabled), .epreuve-btn:hover:not(.disabled), .coffre-banner-btn:hover {
   transform: translateY(-3px) scale(1.02) !important;
-  box-shadow: 0 8px 25px rgba(255, 0, 127, 0.5) !important;
+  box-shadow: 0 8px 25px rgba(255, 0, 127, 0.45) !important;
 }
 
 .btn-primary:active:not(:disabled), .epreuve-btn:active:not(.disabled), .coffre-banner-btn:active {
-  transform: translateY(1px) scale(0.98) !important; /* Effet d'enfoncement physique */
+  transform: translateY(1px) scale(0.98) !important; 
 }
 
 /* AMÉLIORATION DES TITRES ET BADGES */
@@ -4027,13 +4028,13 @@ h1, h2, h3, .mission-main-title {
 
 /* GLOW INTENSE SUR LES CARTES AU SURVOL */
 .epreuve-card:hover:not(.locked) {
-  border-color: rgba(255, 0, 127, 0.5) !important;
-  box-shadow: 0 10px 40px rgba(255, 0, 127, 0.25) !important;
+  border-color: rgba(255, 0, 127, 0.55) !important;
+  box-shadow: 0 10px 40px rgba(255, 0, 127, 0.3) !important;
 }
 
 .coffre-banner:hover {
-  border-color: rgba(255, 215, 0, 0.6) !important;
-  box-shadow: 0 10px 40px rgba(255, 215, 0, 0.25) !important;
+  border-color: rgba(255, 215, 0, 0.65) !important;
+  box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3) !important;
 }
 
 /* =================================================================
@@ -4045,10 +4046,10 @@ body::before, body::after {
   content: '';
   position: fixed;
   border-radius: 50%;
-  filter: blur(120px);
-  z-index: -1; /* Reste tout au fond */
-  opacity: 0.4;
-  pointer-events: none; /* Empêche de bloquer les clics */
+  filter: blur(100px); 
+  z-index: -1; 
+  opacity: 0.75; /* LÉGÈREMENT AUGMENTÉ pour le peps */
+  pointer-events: none; 
   animation: floatAura 15s infinite alternate ease-in-out;
 }
 
@@ -4058,7 +4059,7 @@ body::before {
   left: -10%;
   width: 50vw;
   height: 50vw;
-  background: rgba(255, 0, 127, 0.25);
+  background: rgba(255, 0, 127, 0.25); /* +5% d'intensité */
 }
 
 /* Aura Cyan en bas à droite */
@@ -4067,8 +4068,8 @@ body::after {
   right: -10%;
   width: 60vw;
   height: 60vw;
-  background: rgba(0, 212, 255, 0.15);
-  animation-delay: -5s; /* Désynchronise les mouvements */
+  background: rgba(0, 212, 255, 0.22); /* +4% d'intensité */
+  animation-delay: -5s; 
 }
 
 @keyframes floatAura {
@@ -4076,14 +4077,12 @@ body::after {
   100% { transform: translate(8%, 12%) scale(1.2); }
 }
 
-
 /* 2. ANIMATIONS D'ENTRÉE EN CASCADE (FADE-UP) */
 .epreuve-card, .briefing-card-index, .coffre-banner {
   opacity: 0;
   animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Délai pour que les cartes apparaissent l'une après l'autre */
 .epreuve-card:nth-child(1) { animation-delay: 0.1s; }
 .epreuve-card:nth-child(2) { animation-delay: 0.2s; }
 .epreuve-card:nth-child(3) { animation-delay: 0.3s; }
@@ -4093,7 +4092,6 @@ body::after {
   from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 
 /* 3. LÉVITATION DES ICÔNES DES ÉPREUVES */
 .epreuve-icon {
@@ -4107,9 +4105,8 @@ body::after {
 
 @keyframes floatIcon {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); filter: drop-shadow(0 5px 10px rgba(255,255,255,0.4)); }
+  50% { transform: translateY(-12px); filter: drop-shadow(0 5px 10px rgba(255,255,255,0.35)); }
 }
-
 
 /* 4. PETIT DÉTAIL : BORDURE ANIMÉE SUR LE COFFRE */
 .coffre-banner {
@@ -4122,7 +4119,7 @@ body::after {
   position: absolute;
   top: 0; left: -100%;
   width: 50%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.18), transparent);
   transform: skewX(-20deg);
   animation: shine 4s infinite;
 }
@@ -4154,13 +4151,11 @@ body::after {
    🔍 BOOSTER DE TAILLE DE TEXTE (MODE ÉQUILIBRÉ)
    ================================================================= */
 
-/* 1. Textes principaux (Paragraphes, règles, consignes) */
 p, .rules-list li, .briefing-intro, .chapter-content p, .membre-desc, 
 .mission-context p, .mission-objective p, .mission-rules li, .game-header p {
-  font-size: 1.1rem !important; /* Agrandissement léger, sans casser le design */
+  font-size: 1.1rem !important; 
 }
 
-/* 2. Sous-textes et descriptifs */
 .hero-subtitle, .stat-text, .briefing-footer p, .epreuve-card p, 
 .epreuve-status, .warning-box p, .reward-link, .reward-status, .footer p, 
 .btn-formation, .footer-date, .footer-location, .qr-label, .partners-label, 
@@ -4170,25 +4165,21 @@ p, .rules-list li, .briefing-intro, .chapter-content p, .membre-desc,
   font-size: 0.95rem !important; 
 }
 
-/* 3. Micro-textes (Badges, tags, compteurs) */
 .page-badge, .epreuve-badge, .mission-tag, .briefing-label, .timer-label, 
 .progress-item span, .qr-text, .briefing-stamp, .obj-number, .loader-status {
   font-size: 0.8rem !important; 
-  padding: 0.3rem 0.8rem !important; /* Rétablit un espacement normal */
+  padding: 0.3rem 0.8rem !important; 
 }
 
-/* 4. Éléments interactifs des jeux */
 .quiz-option, .dd-part, .tri-btn, .memory-stat, .tri-stat, .dd-score-bar, .memory-card-back, .dd-score, .dd-errors {
   font-size: 1.05rem !important; 
 }
 
-/* 5. Boutons d'action principaux */
 .btn-primary, .epreuve-btn, .coffre-banner-btn, .btn-accept, .btn-validate-large {
   font-size: 1.1rem !important; 
-  padding: 1rem !important; /* Rétablit une taille de bouton raisonnable */
+  padding: 1rem !important; 
 }
 
-/* 6. CORRECTION SPÉCIFIQUE : Protection du Timer et de l'Équipe */
 .global-timer-display {
   font-size: 1.4rem !important;
 }
