@@ -1,0 +1,70 @@
+/* =================================================================
+   ÉPREUVE 2 — INVENTAIRE EXPRESS
+   ================================================================= */
+.ct-game { padding: 1rem 0; }
+
+.ct-score-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.75rem 1rem; background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; font-size: 0.9rem;
+}
+.ct-round { color: var(--cyan); font-weight: 600; }
+.ct-found { color: var(--green); font-weight: 600; }
+.ct-missed { color: var(--red); font-weight: 600; }
+
+.ct-instruction {
+  text-align: center; padding: 0.8rem 1rem; margin-bottom: 0.8rem;
+  background: rgba(255, 0, 127, 0.05); border: 1px solid rgba(255, 0, 127, 0.2); border-radius: 12px;
+}
+.ct-instruction-text { font-size: 0.85rem; color: var(--gray-light); }
+.ct-instruction em { color: var(--pink); font-style: normal; font-weight: 700; }
+
+.ct-target-bar {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.5rem 1rem; margin-bottom: 0.5rem;
+  background: rgba(255, 215, 0, 0.08); border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 10px; font-size: 0.9rem; color: var(--gold); font-weight: 600;
+}
+.ct-target-bar .target-emoji { font-size: 1.3rem; }
+
+.ct-round-timer { height: 5px; background: var(--border); border-radius: 3px; margin-bottom: 0.8rem; overflow: hidden; }
+.ct-round-timer-fill { height: 100%; background: linear-gradient(90deg, var(--pink), var(--cyan)); border-radius: 3px; transition: width 0.1s linear; }
+.ct-round-timer-fill.danger { background: linear-gradient(90deg, var(--red), #ff6644); }
+
+.ct-scene {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.35rem;
+  max-width: 400px; margin: 0 auto 1rem;
+  background: rgba(0, 0, 0, 0.2); border: 2px solid var(--border); border-radius: 14px; padding: 0.5rem;
+}
+.ct-cell {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; border-radius: 8px; cursor: pointer;
+  background: rgba(255, 255, 255, 0.02); border: 2px solid transparent;
+  transition: transform 0.2s, background 0.2s, border-color 0.2s; user-select: none;
+}
+.ct-cell:hover { background: rgba(0, 212, 255, 0.08); border-color: rgba(0, 212, 255, 0.3); transform: scale(1.1); }
+.ct-cell.found { background: rgba(0, 255, 136, 0.15); border-color: var(--green); pointer-events: none; animation: ct-pop 0.4s ease; }
+.ct-cell.wrong { background: rgba(255, 68, 68, 0.15); border-color: var(--red); animation: ct-shake 0.4s ease; }
+.ct-cell.disabled { pointer-events: none; opacity: 0.6; }
+.ct-cell.reveal { background: rgba(255, 215, 0, 0.15); border-color: var(--gold); }
+.ct-cell.shuffling { transition: none; opacity: 0.3; }
+
+@keyframes ct-pop { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+@keyframes ct-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-5px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(3px); } }
+
+.ct-shuffle-warn { text-align: center; font-size: 0.75rem; color: var(--gold); font-weight: 600; margin-bottom: 0.4rem; min-height: 1.1em; }
+.ct-hint { text-align: center; color: var(--gray); font-size: 0.8rem; }
+
+@media(max-width:450px) {
+  .ct-scene { grid-template-columns: repeat(5, 1fr); gap: 0.3rem; padding: 0.4rem; }
+  .ct-cell { font-size: 1.2rem; }
+}
+
+/* =================================================================
+   🔍 BOOSTER DE TAILLE DE TEXTE (MODE ÉQUILIBRÉ)
+   ================================================================= */
+.ct-score-bar { font-size: 1.05rem !important; }
+.ct-instruction-text { font-size: 1.05rem !important; }
+.ct-target-bar { font-size: 1.1rem !important; }
+.ct-shuffle-warn { font-size: 0.95rem !important; }
+.ct-hint { font-size: 0.95rem !important; }

@@ -1,0 +1,86 @@
+/* =================================================================
+   ÉPREUVE 1 — DÉCHARGEMENT DU CARGO
+   ================================================================= */
+.tt-game { padding: 1rem 0; }
+
+.tt-score-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.75rem 1rem; background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; font-size: 0.9rem;
+}
+.tt-wave { color: var(--cyan); font-weight: 600; }
+.tt-score { color: var(--green); font-weight: 600; }
+.tt-errors { color: var(--red); font-weight: 600; }
+
+.tt-instruction {
+  text-align: center; padding: 0.8rem 1rem; margin-bottom: 1rem;
+  background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 12px;
+}
+.tt-instruction-text { font-size: 0.85rem; color: var(--gray-light); }
+.tt-instruction em { color: var(--cyan); font-style: normal; font-weight: 700; }
+
+.tt-timer-bar { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 1rem; overflow: hidden; }
+.tt-timer-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--cyan)); border-radius: 3px; transition: width 0.1s linear; }
+.tt-timer-fill.danger { background: linear-gradient(90deg, var(--red), #ff6644); }
+
+.tt-legend {
+  display: flex; justify-content: center; gap: 1rem; margin-bottom: 0.8rem;
+  font-size: 0.78rem; color: var(--gray); flex-wrap: wrap;
+}
+.tt-legend span { display: flex; align-items: center; gap: 0.3rem; }
+
+.tt-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem;
+  max-width: 440px; margin: 0 auto 1rem;
+}
+.tt-hole {
+  min-height: 95px; display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.3); border: 2px solid var(--border); border-radius: 16px;
+  position: relative; overflow: hidden; transition: border-color 0.2s; padding: 0.5rem;
+}
+.tt-hole.empty { cursor: default; }
+
+.tt-colis {
+  cursor: pointer; transition: all 0.15s; animation: tt-pop-in 0.3s ease;
+  user-select: none; text-align: center; padding: 0.3rem; width: 100%;
+}
+.tt-colis:hover { transform: scale(1.05); }
+.tt-colis:active { transform: scale(0.93); }
+
+.tt-colis-emoji { font-size: 1.4rem; display: block; margin-bottom: 0.15rem; }
+.tt-colis-name { font-size: 0.72rem; font-weight: 700; color: var(--white); display: block; line-height: 1.2; margin-bottom: 0.15rem; }
+.tt-colis-state {
+  font-size: 0.62rem; font-weight: 600; display: inline-block;
+  padding: 0.12rem 0.5rem; border-radius: 4px;
+}
+.tt-colis-state.etat-bleu { color: #4da6ff; background: rgba(77, 166, 255, 0.15); border: 1px solid rgba(77, 166, 255, 0.3); }
+.tt-colis-state.etat-vert { color: #44dd88; background: rgba(68, 221, 136, 0.15); border: 1px solid rgba(68, 221, 136, 0.3); }
+.tt-colis-state.etat-rouge { color: #ff5566; background: rgba(255, 85, 102, 0.15); border: 1px solid rgba(255, 85, 102, 0.3); }
+
+@keyframes tt-pop-in { from { transform: scale(0) rotate(-10deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+@keyframes tt-pop-out { from { transform: scale(1); opacity: 1; } to { transform: scale(0) rotate(10deg); opacity: 0; } }
+
+.tt-hole.hit-good { border-color: var(--green); background: rgba(0, 255, 136, 0.1); }
+.tt-hole.hit-good .tt-colis { animation: tt-pop-out 0.3s ease forwards; }
+.tt-hole.hit-bad { border-color: var(--red); background: rgba(255, 68, 68, 0.1); animation: tt-shake 0.4s ease; }
+
+@keyframes tt-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+.tt-hint { text-align: center; color: var(--gray); font-size: 0.8rem; }
+
+@media(max-width:400px) {
+  .tt-grid { gap: 0.4rem; max-width: 340px; }
+  .tt-colis-name { font-size: 0.65rem; }
+  .tt-hole { min-height: 80px; }
+}
+
+/* =================================================================
+   🔍 BOOSTER DE TAILLE DE TEXTE (MODE ÉQUILIBRÉ)
+   ================================================================= */
+.tt-score-bar { font-size: 1.05rem !important; }
+.tt-instruction-text { font-size: 1.05rem !important; }
+.tt-legend { font-size: 0.9rem !important; }
+.tt-colis-emoji { font-size: 1.8rem !important; }
+.tt-colis-name { font-size: 0.85rem !important; }
+.tt-colis-state { font-size: 0.75rem !important; }
+.tt-hint { font-size: 0.95rem !important; }

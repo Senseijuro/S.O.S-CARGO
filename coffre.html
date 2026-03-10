@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffre-Fort Digital - Récompenses</title>
+  
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/jpeg" href="img/favicon.jpeg">
+  
+  <audio id="bg-music" loop>
+    <source src="audio/coffre_win.mp3" type="audio/mpeg">
+  </audio>
+</head>
+<body>
+
+  <div class="page-loader" id="page-loader">
+    <div class="loader-content">
+      <div class="loader-logo">
+        <div class="loader-symbols">
+          <span class="loader-symbol circle"></span>
+          <span class="loader-symbol triangle"></span>
+          <span class="loader-symbol square"></span>
+          <span class="loader-symbol cross"></span>
+        </div>
+      </div>
+      <div class="loader-text">COFFRE-FORT DIGITAL</div>
+      <div class="loader-bar">
+        <div class="loader-progress"></div>
+      </div>
+      <div class="loader-status">Ouverture du conteneur de survie...</div>
+    </div>
+  </div>
+
+  <header class="header">
+    <a href="#" class="back-btn" id="back-btn">Retour</a>
+    <div class="header-center">
+      <span class="page-badge gold">COFFRE-FORT DIGITAL</span>
+    </div>
+    <div class="header-right"></div>
+  </header>
+
+  <main class="game-page">
+    <div class="game-container">
+      
+      <div class="game-header">
+        <div class="game-icon-large">🏆</div>
+        <h1 class="gold">COFFRE-FORT DIGITAL</h1>
+        <p>Récupérez vos colis débloqués</p>
+      </div>
+
+      <div class="game-content">
+        
+        <div class="coffre-progress">
+          <div class="progress-item" id="prog-enigme1">
+            <div class="progress-circle">1</div>
+            <span>Cargo</span>
+          </div>
+          <div class="progress-line"></div>
+          <div class="progress-item" id="prog-quiz">
+            <div class="progress-circle">2</div>
+            <span>Inventaire</span>
+          </div>
+          <div class="progress-line"></div>
+          <div class="progress-item" id="prog-enigma">
+            <div class="progress-circle">3</div>
+            <span>Métiers</span>
+          </div>
+        </div>
+
+        <div class="rewards-list">
+          <div class="reward-card" id="reward-enigme1" data-game="enigme1">
+            <div class="reward-icon">📦</div>
+            <div class="reward-info">
+              <h3>Colis n°1</h3>
+              <span class="reward-link">Épreuve 1 - Déchargement du Cargo</span>
+            </div>
+            <div class="reward-status" id="status-enigme1">Verrouillé</div>
+          </div>
+
+          <div class="reward-card" id="reward-quiz" data-game="quiz">
+            <div class="reward-icon">📦</div>
+            <div class="reward-info">
+              <h3>Colis n°2</h3>
+              <span class="reward-link">Épreuve 2 - Inventaire Express</span>
+            </div>
+            <div class="reward-status" id="status-quiz">Verrouillé</div>
+          </div>
+
+          <div class="reward-card" id="reward-enigma" data-game="enigma">
+            <div class="reward-icon">📦</div>
+            <div class="reward-info">
+              <h3>Colis n°3</h3>
+              <span class="reward-link">Épreuve 3 - Qui Intervient ?</span>
+            </div>
+            <div class="reward-status" id="status-enigma">Verrouillé</div>
+          </div>
+        </div>
+
+        <div class="next-zone-box hidden" id="next-zone">
+          <div class="next-zone-content">
+            <span class="next-zone-icon" id="next-zone-icon">🎉</span>
+            <h3 id="next-zone-title">ÉPREUVES TERMINÉES</h3>
+            <p id="next-zone-text">Résultat de vos épreuves</p>
+            <div class="next-zone-direction">
+              <span class="direction-icon">🗣️</span>
+              <div class="direction-info">
+                <strong>PROCHAINE ÉTAPE</strong>
+                <p>Échangez avec l'<span class="zone-name">INTERVENANT LOGISTIQUE</span> sur les métiers et conditions de travail !</p>
+              </div>
+            </div>
+            <p class="next-zone-instruction">Présentez vos résultats à l'intervenant. Posez-lui vos questions sur les formations, les métiers et le quotidien en entrepôt !</p>
+          </div>
+        </div>
+
+        <button class="btn-reset" id="btn-reset">Recommencer le jeu</button>
+
+      </div>
+    </div>
+  </main>
+
+  <div class="modal" id="modal-success">
+    <div class="modal-content success">
+      <div class="modal-icon">OK</div>
+      <h3>COLIS DÉBLOQUÉ !</h3>
+      <p>Signalez au maître du jeu que vous avez réussi.<br>Vous pouvez recevoir vos prix et continuer.</p>
+      <button class="btn-primary" id="btn-close-success">CONTINUER</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-fail">
+    <div class="modal-content fail">
+      <div class="modal-icon">X</div>
+      <h3>COLIS VERROUILLÉ</h3>
+      <p id="fail-message">Vous devez réussir l'épreuve pour débloquer ce colis.</p>
+      <button class="btn-primary" id="btn-close-fail">COMPRIS</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 Maître du Jeu Khouyousse — Destination Apprentissage</p>
+  </footer>
+
+  <script src="js/loader.js"></script>
+  <script src="js/gameState.js"></script>
+  <script src="js/globalTimer.js"></script>
+  <script src="js/coffre.js"></script>
+  <script src="js/music.js"></script>
+</body>
+</html>

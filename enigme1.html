@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Épreuve 1 - Déchargement du Cargo</title>
+  
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/enigme1.css">
+  <link rel="icon" type="image/jpeg" href="img/favicon.jpeg">
+  
+  <audio id="bg-music" loop>
+    <source src="audio/enigme_ost.mp3" type="audio/mpeg">
+  </audio>
+</head>
+<body>
+
+  <div class="page-loader" id="page-loader">
+    <div class="loader-content">
+      <div class="loader-logo">
+        <div class="loader-symbols">
+          <span class="loader-symbol circle"></span>
+          <span class="loader-symbol triangle"></span>
+          <span class="loader-symbol square"></span>
+          <span class="loader-symbol cross"></span>
+        </div>
+      </div>
+      <div class="loader-text">ÉPREUVE 1 — DÉCHARGEMENT</div>
+      <div class="loader-bar">
+        <div class="loader-progress"></div>
+      </div>
+      <div class="loader-status">Le cargo s'est échoué sur la plage...</div>
+    </div>
+  </div>
+
+  <header class="header">
+    <a href="index.html" class="back-btn" id="back-btn">← Retour</a>
+    <div class="header-center">
+      <span class="page-badge">ÉPREUVE 1</span>
+    </div>
+    <div class="header-right"></div>
+  </header>
+
+  <main class="game-page">
+    <div class="game-container game-container-wide">
+      
+      <div class="game-header">
+        <div class="game-icon-large">🚢</div>
+        <h1 class="cyan">DÉCHARGEMENT DU CARGO</h1>
+        <p>Des colis arrivent ! Tape <strong>uniquement</strong> sur les CONFORMES. Lis bien l'étiquette — elles se ressemblent toutes !</p>
+      </div>
+
+      <div class="game-content">
+        
+        <div id="game-area" class="tt-game">
+          
+          <div class="tt-score-bar">
+            <span class="tt-wave" id="tt-wave">🌊 Vague 1 / 3</span>
+            <span class="tt-score" id="tt-score">✅ 0 pts</span>
+            <span class="tt-errors" id="tt-errors">❌ 0 / 5</span>
+          </div>
+          
+          <div class="tt-instruction">
+            <span class="tt-instruction-text">📦 Tape <em>UNIQUEMENT</em> les colis en <em>VERT</em>. Ignore les bleus et rouges. <em>5 erreurs = échec !</em></span>
+          </div>
+          
+          <div class="tt-timer-bar">
+            <div class="tt-timer-fill" id="tt-timer-fill"></div>
+          </div>
+          
+          <div class="tt-legend">
+            <span>🟢 Vert = Conforme → TAPE</span>
+            <span>🔵🔴 Bleu/Rouge = Avarié → ÉVITE</span>
+            <span>💀 5 erreurs = PERDU</span>
+          </div>
+
+          <div class="tt-grid" id="tt-grid">
+            <div class="tt-hole empty"></div><div class="tt-hole empty"></div><div class="tt-hole empty"></div>
+            <div class="tt-hole empty"></div><div class="tt-hole empty"></div><div class="tt-hole empty"></div>
+            <div class="tt-hole empty"></div><div class="tt-hole empty"></div><div class="tt-hole empty"></div>
+          </div>
+
+          <p class="tt-hint">⚠️ Ça va vite — tape les VERTS, ignore les BLEUS et ROUGES !</p>
+        </div>
+
+        <div class="result-container-full hidden" id="result">
+          <div class="result-box" id="result-box">
+            <div class="result-icon" id="result-icon"></div>
+            <h3 id="result-title"></h3>
+            <p id="result-text"></p>
+            <p class="result-score" id="result-score"></p>
+            <a href="quiz.html" class="btn-primary">CONTINUER →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="js/loader.js"></script>
+  <script src="js/gameState.js"></script>
+  <script src="js/globalTimer.js"></script>
+  <script src="js/enigme1.js"></script>
+  <script src="js/music.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</body>
+</html>
