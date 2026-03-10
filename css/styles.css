@@ -2,7 +2,6 @@
    RESET & VARIABLES
    ========================================== */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap');
-
 * {
   margin: 0;
   padding: 0;
@@ -2989,211 +2988,186 @@ body {
 
 
 /* ==========================================
-   GLOBAL TIMER BAR
+   GLOBAL TIMER BAR — HUD GAMING
    ========================================== */
 .global-timer-bar {
   position: fixed;
-  top: 56px;
-  left: 0;
-  right: 0;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 99;
-  background: rgba(10, 10, 15, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
-  padding: 0.5rem 1.5rem;
-  transition: all 0.3s;
+  width: auto;
+  min-width: 280px;
+  max-width: 440px;
+  padding: 0;
+  pointer-events: none;
+  transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.global-timer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.gt-hud {
+  position: relative;
+  background: linear-gradient(135deg, rgba(10, 6, 20, 0.92) 0%, rgba(18, 12, 32, 0.92) 100%);
+  border: 1px solid rgba(255, 0, 127, 0.25);
+  border-radius: 14px;
+  padding: 0.55rem 1.1rem 0.6rem;
+  pointer-events: auto;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.6), 0 12px 40px rgba(0,0,0,0.6), 0 0 30px rgba(255,0,127,0.07), inset 0 1px 0 rgba(255,255,255,0.06);
+  overflow: hidden;
 }
 
-.global-timer-left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-shrink: 0;
+.gt-scanline {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+  pointer-events: none; border-radius: 14px; z-index: 5;
 }
 
-.global-timer-icon {
-  font-size: 1.1rem;
+.gt-corner { position: absolute; width: 10px; height: 10px; z-index: 6; pointer-events: none; }
+.gt-corner-tl { top: 4px; left: 4px; border-top: 2px solid var(--pink); border-left: 2px solid var(--pink); border-radius: 3px 0 0 0; }
+.gt-corner-tr { top: 4px; right: 4px; border-top: 2px solid var(--pink); border-right: 2px solid var(--pink); border-radius: 0 3px 0 0; }
+.gt-corner-bl { bottom: 4px; left: 4px; border-bottom: 2px solid var(--pink); border-left: 2px solid var(--pink); border-radius: 0 0 0 3px; }
+.gt-corner-br { bottom: 4px; right: 4px; border-bottom: 2px solid var(--pink); border-right: 2px solid var(--pink); border-radius: 0 0 3px 0; }
+
+.gt-row { display: flex; align-items: center; gap: 0.7rem; position: relative; z-index: 2; }
+.gt-block { display: flex; align-items: center; }
+.gt-block-status { gap: 0.35rem; flex-shrink: 0; }
+
+.gt-pip {
+  display: block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--pink); box-shadow: 0 0 6px var(--pink), 0 0 12px var(--pink);
+  animation: gt-pip-pulse 2s ease-in-out infinite;
+}
+@keyframes gt-pip-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--pink), 0 0 12px var(--pink); }
+  50% { opacity: 0.5; box-shadow: 0 0 3px var(--pink); }
 }
 
 .global-timer-label {
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--gray);
-  text-transform: uppercase;
+  font-size: 0.55rem; font-weight: 800; letter-spacing: 0.18em;
+  color: rgba(255,0,127,0.6); text-transform: uppercase; white-space: nowrap;
+  font-family: 'Outfit', monospace;
 }
+
+.gt-block-time {
+  gap: 0.3rem; flex-shrink: 0;
+  background: rgba(255,0,127,0.06); border: 1px solid rgba(255,0,127,0.12);
+  border-radius: 8px; padding: 0.2rem 0.6rem;
+}
+
+.gt-time-icon { font-size: 0.85rem; line-height: 1; filter: grayscale(0.3); }
 
 .global-timer-display {
-  font-size: 1.6rem;
-  font-weight: 800;
-  font-family: 'Courier New', monospace;
-  background: linear-gradient(135deg, var(--pink), var(--purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  flex-shrink: 0;
-  min-width: 70px;
-  text-align: center;
+  font-size: 1.4rem; font-weight: 900;
+  font-family: 'Outfit', 'Courier New', monospace;
+  letter-spacing: 0.1em; color: var(--pink);
+  text-shadow: 0 0 12px rgba(255,0,127,0.5), 0 0 24px rgba(255,0,127,0.2);
+  flex-shrink: 0; min-width: 52px; text-align: center; line-height: 1.2;
+  -webkit-text-fill-color: initial; background: none; -webkit-background-clip: initial;
 }
 
+.gt-block-bar { flex: 1; min-width: 60px; }
+
 .global-timer-progress {
-  flex: 1;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-  overflow: hidden;
+  width: 100%; height: 8px;
+  background: rgba(255,255,255,0.05); border-radius: 4px;
+  overflow: visible; position: relative; border: 1px solid rgba(255,255,255,0.05);
 }
 
 .global-timer-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan));
-  border-radius: 2px;
-  transition: width 0.5s linear;
+  background: linear-gradient(90deg, var(--purple), var(--pink), var(--cyan));
+  border-radius: 4px; transition: width 0.5s linear; position: relative;
+  box-shadow: 0 0 8px rgba(255,0,127,0.35), 0 0 16px rgba(255,0,127,0.1);
 }
 
-/* Timer en attente */
-.global-timer-bar.waiting {
-  opacity: 0.6;
+.global-timer-fill::after {
+  content: ''; position: absolute; right: -3px; top: 50%; transform: translateY(-50%);
+  width: 10px; height: 10px; background: var(--white); border-radius: 50%;
+  box-shadow: 0 0 8px var(--pink), 0 0 18px var(--pink), 0 0 30px rgba(255,0,127,0.3);
+  transition: opacity 0.3s, box-shadow 0.3s;
 }
 
-.global-timer-bar.waiting .global-timer-display {
-  background: var(--gray);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+/* --- EN ATTENTE --- */
+.global-timer-bar.waiting .gt-hud { border-color: rgba(255,255,255,0.08); box-shadow: 0 0 0 1px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.4); }
+.global-timer-bar.waiting .gt-pip { background: var(--gray); box-shadow: 0 0 4px var(--gray); animation: none; }
+.global-timer-bar.waiting .global-timer-label { color: rgba(255,255,255,0.25); }
+.global-timer-bar.waiting .global-timer-display { color: rgba(255,255,255,0.2); text-shadow: none; }
+.global-timer-bar.waiting .gt-block-time { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.05); }
+.global-timer-bar.waiting .global-timer-fill { background: rgba(255,255,255,0.1); box-shadow: none; }
+.global-timer-bar.waiting .global-timer-fill::after { opacity: 0; }
+.global-timer-bar.waiting .gt-corner { border-color: rgba(255,255,255,0.1); }
 
-.global-timer-bar.waiting .global-timer-fill {
-  background: var(--gray);
-}
+/* --- WARNING (<60s) --- */
+.global-timer-bar.warning-state .gt-hud { border-color: rgba(255,215,0,0.3); box-shadow: 0 0 0 1px rgba(0,0,0,0.6), 0 12px 40px rgba(0,0,0,0.6), 0 0 25px rgba(255,215,0,0.08); }
+.global-timer-bar.warning-state .gt-pip { background: var(--gold); box-shadow: 0 0 6px var(--gold), 0 0 12px var(--gold); }
+.global-timer-bar.warning-state .global-timer-label { color: rgba(255,215,0,0.6); }
+.global-timer-bar.warning-state .global-timer-display { color: var(--gold); text-shadow: 0 0 12px rgba(255,215,0,0.5), 0 0 24px rgba(255,215,0,0.2); }
+.global-timer-bar.warning-state .gt-block-time { background: rgba(255,215,0,0.06); border-color: rgba(255,215,0,0.15); }
+.global-timer-bar.warning-state .global-timer-fill { background: linear-gradient(90deg, var(--gold), #ff9500); box-shadow: 0 0 10px rgba(255,215,0,0.4); }
+.global-timer-bar.warning-state .global-timer-fill::after { box-shadow: 0 0 8px var(--gold), 0 0 18px var(--gold); }
+.global-timer-bar.warning-state .gt-corner { border-color: var(--gold); }
 
-/* Timer warning (<60s) */
-.global-timer-bar.warning-state {
-  border-bottom-color: rgba(255, 215, 0, 0.4);
+/* --- DANGER (<30s) --- */
+.global-timer-bar.danger .gt-hud { border-color: rgba(255,68,68,0.5); animation: gt-danger-glow 0.8s ease-in-out infinite; }
+@keyframes gt-danger-glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(0,0,0,0.6), 0 12px 40px rgba(0,0,0,0.6), 0 0 20px rgba(255,68,68,0.1); background: linear-gradient(135deg, rgba(10,6,20,0.92), rgba(18,12,32,0.92)); }
+  50% { box-shadow: 0 0 0 1px rgba(255,68,68,0.3), 0 12px 40px rgba(0,0,0,0.6), 0 0 40px rgba(255,68,68,0.15); background: linear-gradient(135deg, rgba(40,6,10,0.92), rgba(30,8,12,0.92)); }
 }
+.global-timer-bar.danger .gt-pip { background: var(--red); box-shadow: 0 0 6px var(--red), 0 0 14px var(--red); animation: gt-pip-danger 0.4s ease-in-out infinite; }
+@keyframes gt-pip-danger { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.global-timer-bar.danger .global-timer-label { color: rgba(255,68,68,0.7); }
+.global-timer-bar.danger .global-timer-display { color: var(--red); text-shadow: 0 0 12px rgba(255,68,68,0.6), 0 0 28px rgba(255,68,68,0.25); animation: gt-time-blink 0.5s ease-in-out infinite; }
+@keyframes gt-time-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.global-timer-bar.danger .gt-block-time { background: rgba(255,68,68,0.08); border-color: rgba(255,68,68,0.25); }
+.global-timer-bar.danger .global-timer-fill { background: var(--red); box-shadow: 0 0 12px rgba(255,68,68,0.5); }
+.global-timer-bar.danger .global-timer-fill::after { background: var(--red); box-shadow: 0 0 8px var(--red), 0 0 20px var(--red); }
+.global-timer-bar.danger .gt-corner { border-color: var(--red); }
+.global-timer-bar.danger .gt-time-icon { animation: gt-icon-shake 0.35s ease-in-out infinite; }
+@keyframes gt-icon-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-2px) rotate(-4deg); } 75% { transform: translateX(2px) rotate(4deg); } }
 
-.global-timer-bar.warning-state .global-timer-display {
-  background: linear-gradient(135deg, var(--gold), #ff9500);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+/* --- EXPIRÉ --- */
+.global-timer-bar.expired .gt-hud { border-color: rgba(255,68,68,0.4); animation: none; background: linear-gradient(135deg, rgba(30,6,8,0.92), rgba(20,5,10,0.92)); }
+.global-timer-bar.expired .gt-pip { background: var(--red); opacity: 0.4; box-shadow: none; animation: none; }
+.global-timer-bar.expired .global-timer-display { color: var(--red); opacity: 0.5; text-shadow: none; animation: none; }
+.global-timer-bar.expired .global-timer-label { color: rgba(255,68,68,0.4); }
+.global-timer-bar.expired .global-timer-fill::after { opacity: 0; }
+.global-timer-bar.expired .gt-corner { border-color: rgba(255,68,68,0.3); }
 
-.global-timer-bar.warning-state .global-timer-fill {
-  background: linear-gradient(90deg, var(--gold), #ff9500);
-}
+/* --- TERMINÉ --- */
+.global-timer-bar.completed .gt-hud { border-color: rgba(0,255,136,0.25); animation: none; box-shadow: 0 0 0 1px rgba(0,0,0,0.6), 0 12px 40px rgba(0,0,0,0.6), 0 0 25px rgba(0,255,136,0.06); }
+.global-timer-bar.completed .gt-pip { background: var(--green); box-shadow: 0 0 6px var(--green), 0 0 12px var(--green); }
+.global-timer-bar.completed .global-timer-label { color: rgba(0,255,136,0.5); }
+.global-timer-bar.completed .global-timer-display { color: var(--green); text-shadow: 0 0 12px rgba(0,255,136,0.4); animation: none; }
+.global-timer-bar.completed .gt-block-time { background: rgba(0,255,136,0.05); border-color: rgba(0,255,136,0.15); }
+.global-timer-bar.completed .global-timer-fill { background: linear-gradient(90deg, var(--green), var(--cyan)); box-shadow: 0 0 8px rgba(0,255,136,0.3); }
+.global-timer-bar.completed .global-timer-fill::after { background: var(--green); box-shadow: 0 0 6px var(--green), 0 0 14px var(--green); }
+.global-timer-bar.completed .gt-corner { border-color: var(--green); }
 
-/* Timer danger (<30s) */
-.global-timer-bar.danger {
-  border-bottom-color: rgba(255, 68, 68, 0.5);
-  animation: timer-pulse 1s ease-in-out infinite;
-}
+/* ---- Page padding ---- */
+.main-container { padding-top: 100px; }
+.game-page { padding-top: 110px; }
 
-@keyframes timer-pulse {
-  0%, 100% { background: rgba(10, 10, 15, 0.95); }
-  50% { background: rgba(255, 68, 68, 0.1); }
-}
-
-.global-timer-bar.danger .global-timer-display {
-  background: var(--red);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: timer-blink 0.5s ease-in-out infinite;
-}
-
-@keyframes timer-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.global-timer-bar.danger .global-timer-fill {
-  background: var(--red);
-}
-
-.global-timer-bar.danger .global-timer-label {
-  color: var(--red);
-}
-
-/* Timer expiré */
-.global-timer-bar.expired {
-  border-bottom-color: var(--red);
-  animation: none;
-  background: rgba(255, 68, 68, 0.08);
-}
-
-.global-timer-bar.expired .global-timer-display {
-  background: var(--red);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: none;
-  opacity: 0.7;
-}
-
-.global-timer-bar.expired .global-timer-label {
-  color: var(--red);
-}
-
-/* Timer terminé (toutes épreuves complétées) */
-.global-timer-bar.completed {
-  border-bottom-color: rgba(0, 255, 136, 0.3);
-  animation: none;
-}
-
-.global-timer-bar.completed .global-timer-display {
-  background: var(--green);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: none;
-}
-
-.global-timer-bar.completed .global-timer-label {
-  color: var(--green);
-}
-
-.global-timer-bar.completed .global-timer-fill {
-  background: var(--green);
-}
-
-/* Ajuster le padding-top de toutes les pages pour le timer bar */
-.main-container {
-  padding-top: 100px;
-}
-
-.game-page {
-  padding-top: 110px;
-}
-
-/* Responsive timer bar */
+/* ---- Responsive ---- */
 @media (max-width: 600px) {
-  .global-timer-bar {
-    padding: 0.4rem 1rem;
-    top: 50px;
-  }
+  .global-timer-bar { top: 62px; min-width: 0; width: calc(100% - 1.5rem); max-width: 380px; }
+  .gt-hud { padding: 0.45rem 0.8rem 0.5rem; border-radius: 12px; }
+  .gt-block-status { display: none; }
+  .global-timer-display { font-size: 1.15rem; min-width: 44px; }
+  .gt-block-time { padding: 0.15rem 0.5rem; }
+  .gt-row { gap: 0.5rem; }
+  .global-timer-progress { height: 6px; }
+  .global-timer-fill::after { width: 8px; height: 8px; }
+  .gt-corner { width: 7px; height: 7px; }
+  .main-container { padding-top: 95px; }
+  .game-page { padding-top: 105px; }
+}
 
-  .global-timer-label {
-    display: none;
-  }
-
-  .global-timer-display {
-    font-size: 1.3rem;
-  }
-
-  .global-timer-inner {
-    gap: 0.75rem;
-  }
-
-  .main-container {
-    padding-top: 90px;
-  }
-
-  .game-page {
-    padding-top: 100px;
-  }
+@media (max-width: 360px) {
+  .global-timer-bar { width: calc(100% - 1rem); }
+  .gt-hud { padding: 0.35rem 0.6rem 0.4rem; border-radius: 10px; }
+  .global-timer-display { font-size: 1.05rem; min-width: 40px; }
+  .gt-time-icon { display: none; }
+  .gt-corner { display: none; }
+  .gt-scanline { display: none; }
 }
 
 /* ==========================================
@@ -4216,15 +4190,15 @@ p, .rules-list li, .briefing-intro, .chapter-content p, .membre-desc,
 
 /* 6. CORRECTION SPÉCIFIQUE : Protection du Timer et de l'Équipe */
 .global-timer-display {
-  font-size: 1.5rem !important; /* Empêche le timer de déborder de sa barre */
+  font-size: 1.4rem !important;
 }
 
 .membre-info h3 {
-  font-size: 1.1rem !important; /* Empêche les noms de l'équipe de casser la carte */
+  font-size: 1.1rem !important;
 }
 
 @media (max-width: 600px) {
   .global-timer-display {
-    font-size: 1.25rem !important; /* Sécurité supplémentaire pour les petits écrans */
+    font-size: 1.15rem !important;
   }
 }

@@ -38,14 +38,26 @@
     bar.id = 'global-timer-bar';
     bar.className = 'global-timer-bar';
     bar.innerHTML =
-      '<div class="global-timer-inner">' +
-        '<div class="global-timer-left">' +
-          '<span class="global-timer-icon">⏱️</span>' +
-          '<span class="global-timer-label" id="gt-label">EN ATTENTE</span>' +
-        '</div>' +
-        '<span class="global-timer-display" id="gt-display">02:00</span>' +
-        '<div class="global-timer-progress">' +
-          '<div class="global-timer-fill" id="gt-fill"></div>' +
+      '<div class="gt-hud">' +
+        '<div class="gt-corner gt-corner-tl"></div>' +
+        '<div class="gt-corner gt-corner-tr"></div>' +
+        '<div class="gt-corner gt-corner-bl"></div>' +
+        '<div class="gt-corner gt-corner-br"></div>' +
+        '<div class="gt-scanline"></div>' +
+        '<div class="gt-row">' +
+          '<div class="gt-block gt-block-status">' +
+            '<span class="gt-pip"></span>' +
+            '<span class="global-timer-label" id="gt-label">EN ATTENTE</span>' +
+          '</div>' +
+          '<div class="gt-block gt-block-time">' +
+            '<span class="gt-time-icon">⏱</span>' +
+            '<span class="global-timer-display" id="gt-display">02:00</span>' +
+          '</div>' +
+          '<div class="gt-block gt-block-bar">' +
+            '<div class="global-timer-progress">' +
+              '<div class="global-timer-fill" id="gt-fill"></div>' +
+            '</div>' +
+          '</div>' +
         '</div>' +
       '</div>';
 
