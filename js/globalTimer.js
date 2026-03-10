@@ -5,22 +5,26 @@
 // ==========================================
 
 (function() {
+  // 1. CORRECTION : FALLBACK TIMER_KEY
+  // Au cas où gameState.js n'est pas encore complètement chargé par le navigateur
+  var SAFE_TIMER_KEY = (typeof TIMER_KEY !== 'undefined') ? TIMER_KEY : 'globalTimerStart';
+
   var TIMER_DURATION = 120; // 2 minutes
   var timerInterval = null;
   var hasExpired = false;
 
   function isTimerStarted() {
-    return !!localStorage.getItem(TIMER_KEY);
+    return !!localStorage.getItem(SAFE_TIMER_KEY);
   }
 
   function startTimer() {
     if (!isTimerStarted()) {
-      localStorage.setItem(TIMER_KEY, Date.now().toString());
+      localStorage.setItem(SAFE_TIMER_KEY, Date.now().toString());
     }
   }
 
   function getTimeRemaining() {
-    var start = localStorage.getItem(TIMER_KEY);
+    var start = localStorage.getItem(SAFE_TIMER_KEY);
     if (!start) return TIMER_DURATION;
     var elapsed = Math.floor((Date.now() - parseInt(start)) / 1000);
     return Math.max(0, TIMER_DURATION - elapsed);
@@ -106,9 +110,10 @@
       bar.classList.remove('danger', 'warning-state', 'waiting');
     }
 
-    // Rediriger vers le coffre (sauf si déjà sur coffre ou équipe)
-    var filename = window.location.pathname.split('/').pop() || '';
-    if (filename.indexOf('coffre') === -1 && filename.indexOf('equipe') === -1) {
+    // 2. CORRECTION : DÉTECTION COFFRE/EQUIPE ROBUSTE POUR NETLIFY
+    // On analyse le chemin complet et pas seulement le dernier mot après le slash
+    var currentPath = window.location.pathname.toLowerCase();
+    if (currentPath.indexOf('coffre') === -1 && currentPath.indexOf('equipe') === -1) {
       setTimeout(function() {
         window.location.href = 'coffre.html';
       }, 2000);
@@ -165,11 +170,17 @@
     }
   }
 
-  // Détection page jeu
-  var filename = (window.location.pathname.split('/').pop() || '').toLowerCase();
-  var isGamePage = filename === 'enigme1.html' ||
-                   filename === 'quiz.html' ||
-                   filename === 'enigme.html';
+  // ==========================================
+  // 3. CORRECTION : DÉTECTION PAGE JEU COMPATIBLE NETLIFY
+  // Retire les slashes à la fin et l'extension .html pour éviter les bugs
+  // ==========================================
+  var path = window.location.pathname.toLowerCase();
+  if (path.endsWith('/')) { path = path.slice(0, -1); }
+  var filename = path.split('/').pop().replace('.html', '');
+
+  var isGamePage = filename === 'enigme1' ||
+                   filename === 'quiz' ||
+                   filename === 'enigme';
 
   document.addEventListener('DOMContentLoaded', function() {
     // Lancer le timer automatiquement sur les pages de jeu
