@@ -3,15 +3,20 @@
 // Se lance quand on entre dans un jeu
 // Persiste via localStorage timestamp
 // ==========================================
+// MODIFIÉ : Ne démarre plus automatiquement sur les pages de jeu.
+//           Attend que le tutoriel soit fermé (window._tutorialPending).
+//           Chaque jeu appelle globalTimer.start() après le tutoriel.
+// ==========================================
 
 (function() {
-  // 1. CORRECTION : FALLBACK TIMER_KEY
-  // Au cas où gameState.js n'est pas encore complètement chargé par le navigateur
+  // 1. FALLBACK TIMER_KEY
   var SAFE_TIMER_KEY = (typeof TIMER_KEY !== 'undefined') ? TIMER_KEY : 'globalTimerStart';
 
   var TIMER_DURATION = 120; // 2 minutes
   var timerInterval = null;
   var hasExpired = false;
+  var isPaused = false;
+  var pauseStartedAt = null; // timestamp du moment où on a mis en pause
 
   function isTimerStarted() {
     return !!localStorage.getItem(SAFE_TIMER_KEY);
@@ -21,12 +26,40 @@
     if (!isTimerStarted()) {
       localStorage.setItem(SAFE_TIMER_KEY, Date.now().toString());
     }
+    isPaused = false;
+    pauseStartedAt = null;
+  }
+
+  // ==========================================
+  // PAUSE / RESUME
+  // Décale le startTime dans le localStorage
+  // pour "effacer" le temps passé en pause.
+  // ==========================================
+  function pauseTimer() {
+    if (!isTimerStarted() || isPaused) return;
+    isPaused = true;
+    pauseStartedAt = Date.now();
+  }
+
+  function resumeTimer() {
+    if (!isPaused || !pauseStartedAt) return;
+    // Combien de temps on est resté en pause ?
+    var pausedMs = Date.now() - pauseStartedAt;
+    // Décaler le startTime vers le futur de cette durée
+    var start = parseInt(localStorage.getItem(SAFE_TIMER_KEY));
+    if (start) {
+      localStorage.setItem(SAFE_TIMER_KEY, (start + pausedMs).toString());
+    }
+    isPaused = false;
+    pauseStartedAt = null;
   }
 
   function getTimeRemaining() {
     var start = localStorage.getItem(SAFE_TIMER_KEY);
     if (!start) return TIMER_DURATION;
-    var elapsed = Math.floor((Date.now() - parseInt(start)) / 1000);
+    // Si en pause, calculer depuis le moment de la pause (pas maintenant)
+    var now = isPaused && pauseStartedAt ? pauseStartedAt : Date.now();
+    var elapsed = Math.floor((now - parseInt(start)) / 1000);
     return Math.max(0, TIMER_DURATION - elapsed);
   }
 
@@ -110,8 +143,6 @@
       bar.classList.remove('danger', 'warning-state', 'waiting');
     }
 
-    // 2. CORRECTION : DÉTECTION COFFRE/EQUIPE ROBUSTE POUR NETLIFY
-    // On analyse le chemin complet et pas seulement le dernier mot après le slash
     var currentPath = window.location.pathname.toLowerCase();
     if (currentPath.indexOf('coffre') === -1 && currentPath.indexOf('equipe') === -1) {
       setTimeout(function() {
@@ -150,6 +181,20 @@
     }
 
     if (bar) bar.classList.remove('waiting');
+
+    // ---- ÉTAT PAUSE : figer l'affichage, ne pas expirer ----
+    if (isPaused) {
+      if (label) label.textContent = '⏸ EN PAUSE';
+      var remaining = getTimeRemaining();
+      if (display) display.textContent = fmtTime(remaining);
+      if (fill) fill.style.width = ((remaining / TIMER_DURATION) * 100) + '%';
+      if (bar) {
+        bar.classList.remove('danger', 'warning-state');
+        bar.classList.add('waiting');
+      }
+      return; // Ne rien faire d'autre tant qu'on est en pause
+    }
+
     if (label) label.textContent = 'TEMPS RESTANT';
 
     var remaining = getTimeRemaining();
@@ -171,8 +216,7 @@
   }
 
   // ==========================================
-  // 3. CORRECTION : DÉTECTION PAGE JEU COMPATIBLE NETLIFY
-  // Retire les slashes à la fin et l'extension .html pour éviter les bugs
+  // DÉTECTION PAGE JEU COMPATIBLE NETLIFY
   // ==========================================
   var path = window.location.pathname.toLowerCase();
   if (path.endsWith('/')) { path = path.slice(0, -1); }
@@ -183,9 +227,20 @@
                    filename === 'enigme';
 
   document.addEventListener('DOMContentLoaded', function() {
-    // Lancer le timer automatiquement sur les pages de jeu
+
+    // ==========================================
+    // CHANGEMENT CLÉ : Ne plus auto-démarrer le timer.
+    // Le timer sera démarré par chaque jeu APRÈS le tutoriel.
+    // On ne fait l'auto-start QUE si le timer tourne déjà
+    // (le joueur revient sur une page de jeu en cours de partie).
+    // ==========================================
     if (isGamePage && typeof allGamesCompleted === 'function' && !allGamesCompleted()) {
-      startTimer();
+      // Le timer tourne déjà → ne pas bloquer (le joueur a déjà vu le tuto)
+      // Le timer ne tourne pas encore → on ne démarre PAS (le tuto s'en charge)
+      if (isTimerStarted()) {
+        // Timer déjà en cours, on ne fait rien de spécial
+      }
+      // Si pas encore démarré, on attend que le jeu appelle globalTimer.start()
     }
 
     // Si le timer a déjà expiré au chargement
@@ -205,6 +260,8 @@
   // API globale
   window.globalTimer = {
     start: startTimer,
+    pause: pauseTimer,
+    resume: resumeTimer,
     getTimeRemaining: getTimeRemaining,
     isStarted: isTimerStarted,
     DURATION: TIMER_DURATION
